@@ -1,0 +1,3 @@
+{"event_id":"evt-001","timestamp":"2026-09-29T12:00:00Z","event_type":"authentication_alert","severity":"high","source":"idp","entity":"alice","fields":{"confidence":"high","src_ip":"203.0.113.50","reason":"impossible_travel"}}
+{"event_id":"evt-002","timestamp":"2026-09-29T12:01:00Z","event_type":"malware_alert","severity":"critical","source":"edr","entity":"workstation-07","fields":{"hash":"sha256:demo","confidence":"high"}}
+{"event_id":"evt-003","timestamp":"2026-09-29T12:02:00Z","event_type":"ioc_match","severity":"medium","source":"threat-intel","entity":"203.0.113.77","fields":{"confidence":"high","ioc_type":"ip"}}
