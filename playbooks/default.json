@@ -1,0 +1,5 @@
+[
+  {"id":"account-compromise-containment","name":"Account compromise containment","description":"Queue defensive containment after a high-confidence identity alert.","when":{"event_type":"authentication_alert","severity":["high","critical"],"fields":{"confidence":"high"}},"requires_approval":true,"actions":[{"type":"collect_evidence","target":"identity-provider"},{"type":"disable_account","target":"event.entity"},{"type":"notify","target":"soc-on-call"}]},
+  {"id":"malware-host-triage","name":"Malware host triage","description":"Prepare evidence collection and isolation for an endpoint alert.","when":{"event_type":"malware_alert","severity":["high","critical"]},"requires_approval":true,"actions":[{"type":"collect_evidence","target":"endpoint"},{"type":"isolate_host","target":"event.entity"},{"type":"notify","target":"soc-on-call"}]},
+  {"id":"ioc-notification","name":"IOC notification","description":"Notify the SOC when a trusted feed reports a high-confidence IOC.","when":{"event_type":"ioc_match","fields":{"confidence":"high"}},"requires_approval":false,"actions":[{"type":"notify","target":"threat-intelligence-team"}]}
+]
