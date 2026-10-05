@@ -98,7 +98,13 @@ class SOAREngine:
         return [p for p in self.playbooks if self._matches(p.get("when", {}), event)]
 
     def _execute_action(self, action: dict[str, Any], event: Event) -> ActionResult:
-        name, target = str(action.get("type", "notify")), str(action.get("target", event.entity))
+        name = str(action.get("type", "notify"))
+        target = action.get("target", event.entity)
+        if target == "event.entity":
+            target = event.entity
+        elif target == "event.source":
+            target = event.source
+        target = str(target)
         if name == "notify":
             return ActionResult(name, "simulated" if self.mode == "dry-run" else "queued", f"notification prepared for {target}")
         if name in {"isolate_host", "disable_account", "block_indicator", "collect_evidence"}:
