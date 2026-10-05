@@ -31,3 +31,20 @@ def test_unknown_action_is_rejected(tmp_path):
         result = engine.process(Event.from_mapping({"event_type":"test"}))[0]
         assert result["results"][0]["status"] == "rejected"
     finally: engine.audit.close()
+
+
+def test_action_target_resolves_event_entity(tmp_path):
+    engine = SOAREngine(
+        [{
+            "id": "target-resolution",
+            "when": {"event_type": "test"},
+            "requires_approval": False,
+            "actions": [{"type": "isolate_host", "target": "event.entity"}],
+        }],
+        AuditStore(tmp_path / "audit.db"),
+    )
+    try:
+        result = engine.process(Event.from_mapping({"event_type": "test", "entity": "host-42"}))[0]
+        assert "target=host-42" in result["results"][0]["detail"]
+    finally:
+        engine.audit.close()
