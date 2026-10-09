@@ -30,6 +30,7 @@ def test_unknown_action_is_rejected(tmp_path):
     try:
         result = engine.process(Event.from_mapping({"event_type":"test"}))[0]
         assert result["results"][0]["status"] == "rejected"
+        assert result["status"] == "rejected"
     finally: engine.audit.close()
 
 

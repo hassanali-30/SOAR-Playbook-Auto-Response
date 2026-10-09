@@ -120,7 +120,10 @@ class SOAREngine:
             status = "pending_approval"
         else:
             results = [self._execute_action(a, event) for a in playbook.get("actions", [])]
-            status = "simulated" if self.mode == "dry-run" else "queued"
+            if any(result.status == "rejected" for result in results):
+                status = "rejected"
+            else:
+                status = "simulated" if self.mode == "dry-run" else "queued"
         result_dicts = [r.to_dict() for r in results]
         evidence = json.dumps({"event": event.to_dict(), "results": result_dicts}, sort_keys=True).encode()
         execution = {"execution_id": execution_id, "event_id": event.event_id,
